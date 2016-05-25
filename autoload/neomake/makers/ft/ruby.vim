@@ -1,10 +1,16 @@
 " vim: ts=4 sw=4 et
 
-function! neomake#makers#ft#ruby#EnabledMakers()
-    return ['mri', 'rubocop', 'reek', 'rubylint']
+function! neomake#makers#ft#ruby#EnabledMakers() abort
+    return ['mri', 'rubocop', 'reek', 'rubylint', 'foodcritic']
 endfunction
 
-function! neomake#makers#ft#ruby#rubocop()
+function! neomake#makers#ft#ruby#foodcritic() abort
+    return {
+        \ 'exe': 'true'
+        \ }
+endfunction
+
+function! neomake#makers#ft#ruby#rubocop() abort
     return {
         \ 'args': ['--format', 'emacs'],
         \ 'errorformat': '%f:%l:%c: %t: %m',
@@ -12,7 +18,7 @@ function! neomake#makers#ft#ruby#rubocop()
         \ }
 endfunction
 
-function! neomake#makers#ft#ruby#rubylint()
+function! neomake#makers#ft#ruby#rubylint() abort
     return {
         \ 'exe': 'ruby-lint',
         \ 'args': ['--presenter', 'syntastic'],
@@ -20,7 +26,7 @@ function! neomake#makers#ft#ruby#rubylint()
         \ }
 endfunction
 
-function! neomake#makers#ft#ruby#RubocopEntryProcess(entry)
+function! neomake#makers#ft#ruby#RubocopEntryProcess(entry) abort
     if a:entry.type ==# 'F'
         let a:entry.type = 'E'
     elseif a:entry.type !=# 'W' && a:entry.type !=# 'E'
@@ -28,7 +34,7 @@ function! neomake#makers#ft#ruby#RubocopEntryProcess(entry)
     endif
 endfunction
 
-function! neomake#makers#ft#ruby#mri()
+function! neomake#makers#ft#ruby#mri() abort
     let errorformat = '%-G%\m%.%#warning: %\%%(possibly %\)%\?useless use of == in void context,'
     let errorformat .= '%-G%\%.%\%.%\%.%.%#,'
     let errorformat .=
@@ -47,7 +53,7 @@ function! neomake#makers#ft#ruby#mri()
         \ }
 endfunction
 
-function! neomake#makers#ft#ruby#jruby()
+function! neomake#makers#ft#ruby#jruby() abort
     let errorformat =
         \ '%-GSyntax OK for %f,'.
         \ '%ESyntaxError in %f:%l: syntax error\, %m,'.
@@ -64,7 +70,7 @@ function! neomake#makers#ft#ruby#jruby()
         \ }
 endfunction
 
-function! neomake#makers#ft#ruby#reek()
+function! neomake#makers#ft#ruby#reek() abort
     return {
         \ 'args': ['--format', 'text', '--single-line'],
         \ 'errorformat': '%W%f:%l: %m',

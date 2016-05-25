@@ -84,6 +84,9 @@ C++:
 - g++
 - clang-tidy
 
+Chef:
+- [foodcritic](http://www.foodcritic.io/)
+
 Coffeescript:
 - coffeelint
 
